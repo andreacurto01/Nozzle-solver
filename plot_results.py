@@ -15,7 +15,7 @@ def generate_multiphysics_plots():
     L_div_input = 0.40       
 
     fluid_props = {'Pr': 0.8, 'mu_0': 8.5e-5, 'Cp': 2000.0, 'c_star': 1650.0}
-    thermal_props = {'t_w': 0.004, 'k_w': 320.0, 'h_c': 25000.0, 'T_cool': 350.0}
+    thermal_props = {'k_w': 320.0, 'h_c': 25000.0, 'T_cool': 350.0}
     material_props = {'E': 110e9, 'alpha': 17e-6, 'nu': 0.33, 'sigma_y': 420e6}
 
     cfd = RocketNozzleCFD(Pc_input, Tc_input, gamma_input, R_input, D_throat_input, D_exit_input, L_conv_input, L_div_input)
@@ -37,7 +37,7 @@ def generate_multiphysics_plots():
 
     ax1.plot(cfd.x, sigma_vm_i_MPa, label="Von Mises - Inner Wall (Gas Side)", color='tab:red', linewidth=2)
     ax1.plot(cfd.x, sigma_vm_o_MPa, label="Von Mises - Outer Wall (Coolant Side)", color='tab:orange', linewidth=2, linestyle='--')
-    ax1.axhline(y=sigma_y_MPa, color='black', linestyle=':', label="Material Yield Strength ($\sigma_y$)", linewidth=1.5)
+    ax1.axhline(y=sigma_y_MPa, color='black', linestyle=':', label=r"Material Yield Strength ($\sigma_y$)", linewidth=1.5)
     
     ax1.axvline(x=0, color='gray', linestyle='-', alpha=0.5)
     ax1.text(0.005, sigma_y_MPa * 1.1, "Throat (x=0)", color='gray', fontweight='bold')
