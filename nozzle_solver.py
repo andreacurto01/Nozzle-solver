@@ -34,10 +34,9 @@ if __name__ == "__main__":
         'c_star': 1650.0     
     }
 
-    thermal_props = {
-        't_w': 0.0025,        
+    thermal_props = {       
         'k_w': 320.0,        
-        'h_c': 40000.0,      
+        'h_c': 25000.0,      
         'T_cool': 350.0      
     }
 
@@ -76,7 +75,7 @@ if __name__ == "__main__":
     print("====================================================")
     
     idx_inlet = 0
-    idx_throat = len(cfd.x) // 2
+    idx_throat = np.argmin(np.abs(cfd.x))
     idx_exit = -1
     
     sections = [("INLET", idx_inlet), ("THROAT", idx_throat), ("EXIT", idx_exit)]
@@ -95,3 +94,4 @@ if __name__ == "__main__":
     print("\n====================================================")
     print("Multiphysics Analysis Complete. Modular File Integration Successful!")
     print("====================================================")
+
