@@ -74,7 +74,7 @@ class RocketNozzleThermal:
             sub_bracket_1 = (T_wi_guess / (2.0 * self.T_0)) * (1.0 + g_factor * self.M[idx]**2) + 0.5
             sub_bracket_2 = 1.0 + g_factor * self.M[idx]**2
             
-            sigma = (sub_bracket_1**(-0.68)) * (sub_bracket_2**0.12)
+            sigma = (sub_bracket_1**(-0.68)) * (sub_bracket_2**(-0.12))
             h_g_current = bartz_base * sigma
             
             # Calcolo della resistenza usando lo SPESSORE LOCALE PUNTUALE
