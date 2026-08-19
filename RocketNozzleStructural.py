@@ -18,8 +18,8 @@ class RocketNozzleStructural:
         self.t_w = thermal_solver.t_w      
         
         # Calcolo dei raggi locali (Interno ed Esterno) punto per punto
-        self.R_ext = self.D_ext / 2.0
-        self.R_int = self.R_ext - self.t_w
+        self.R_int = self.D_ext / 2.0
+        self.R_ext = self.R_int - self.t_w
         
         # Thermal profiles from Step 2
         self.T_wi = thermal_solver.T_wi    # Inner wall temperature [K]
