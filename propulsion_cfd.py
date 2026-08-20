@@ -106,5 +106,6 @@ if __name__ == "__main__":
     
     print("=== CFD CORE RESULTS ===")
     print(f"Inlet  -> Mach: {M[0]:.2f}, Pressure: {P[0]/1e5:.1f} bar, Temp: {T[0]:.0f} K")
-    print(f"Throat -> Mach: {M[len(M)//2]:.2f}, Pressure: {P[len(M)//2]/1e5:.1f} bar, Temp: {T[len(M)//2]:.0f} K")
+    idx_throat = np.argmin(np.abs(x))
+    print(f"Throat -> Mach: {M[idx_throat]:.2f}, Pressure: {P[idx_throat]/1e5:.1f} bar, Temp: {T[idx_throat]:.0f} K")
     print(f"Exit   -> Mach: {M[-1]:.2f}, Pressure: {P[-1]/1e5:.2f} bar, Temp: {T[-1]:.0f} K")
