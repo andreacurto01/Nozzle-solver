@@ -4,7 +4,6 @@
 
 import numpy as np
 
-# IMPORTAZIONE DAI TUOI FILE SEPARATI
 from propulsion_cfd import RocketNozzleCFD
 from thermal_bartz import RocketNozzleThermal
 from RocketNozzleStructural import RocketNozzleStructural
@@ -94,4 +93,3 @@ if __name__ == "__main__":
     print("\n====================================================")
     print("Multiphysics Analysis Complete. Modular File Integration Successful!")
     print("====================================================")
-
