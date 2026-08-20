@@ -14,12 +14,11 @@ class RocketNozzleStructural:
         self.P_gas = cfd_solver.P          # Local static pressure from CFD [Pa]
         self.D_ext = thermal_solver.D      # Outer diameter of the inner wall [m]
         
-        # Ereditiamo l'esatto profilo di spessore variabile calcolato dal modulo termico
         self.t_w = thermal_solver.t_w      
         
-        # Calcolo dei raggi locali (Interno ed Esterno) punto per punto
+        # Radius
         self.R_int = self.D_ext / 2.0
-        self.R_ext = self.R_int - self.t_w
+        self.R_ext = self.R_int + self.t_w
         
         # Thermal profiles from Step 2
         self.T_wi = thermal_solver.T_wi    # Inner wall temperature [K]
