@@ -31,17 +31,25 @@ class RocketNozzleThermal:
         self.h_c = thermal_properties['h_c']      
         self.T_cool = thermal_properties['T_cool']  
         
-        # GENERA IL PROFILO DI SPESSORE VARIABILE (Dinamico lungo l'asse x)
+        # Variable wall thickness profile along x
+        t_chamber = 0.0040      # 4.0 mm in chamber/inlet
+        t_throat = 0.0012       # 1.2 mm at throat (x=0)
+        t_exit = 0.0020         # 2.0 mm in divergent (steady-state)
+        conv_taper_len = 0.05   # convergent-side taper length [m]
+        div_taper_len = 0.10    # divergent-side taper length [m]
+
         self.t_w = np.zeros_like(self.x)
         for i, x_val in enumerate(self.x):
-            if x_val < -0.05:
-                self.t_w[i] = 0.0040  # 4.0 mm in Camera/Inlet per reggere la pressione
-            elif x_val >= -0.05 and x_val <= 0.05:
-                dist_from_throat = abs(x_val)
-                # Restringimento lineare simmetrico fino a 1.2 mm esatti al collo (x=0)
-                self.t_w[i] = 0.0012 + (0.0040 - 0.0012) * (dist_from_throat / 0.05)
+            if x_val < -conv_taper_len:
+                self.t_w[i] = t_chamber
+            elif -conv_taper_len <= x_val <= 0.0:
+                frac = abs(x_val) / conv_taper_len
+                self.t_w[i] = t_throat + (t_chamber - t_throat) * frac
+            elif 0.0 < x_val <= div_taper_len:
+                frac = x_val / div_taper_len
+                self.t_w[i] = t_throat + (t_exit - t_throat) * frac
             else:
-                self.t_w[i] = 0.0020  # 2.0 mm nel Divergente di scarico
+                self.t_w[i] = t_exit
         
         # Reconstruct local diameters from the area profile
         self.D = 2.0 * np.sqrt(self.A / np.pi)
@@ -66,7 +74,6 @@ class RocketNozzleThermal:
                      ((self.P_c / self.c_star)**0.8) * \
                      ((self.D_t / self.D[idx])**1.8)
         
-        # Recuperiamo lo spessore locale per questo specifico nodo
         t_w_local = self.t_w[idx]
         
         for iteration in range(max_iter):
@@ -77,7 +84,6 @@ class RocketNozzleThermal:
             sigma = (sub_bracket_1**(-0.68)) * (sub_bracket_2**(-0.12))
             h_g_current = bartz_base * sigma
             
-            # Calcolo della resistenza usando lo SPESSORE LOCALE PUNTUALE
             R_total = (1.0 / h_g_current) + (t_w_local / self.k_w) + (1.0 / self.h_c)
             
             q_current = (self.T_aw[idx] - self.T_cool) / R_total
@@ -108,4 +114,4 @@ class RocketNozzleThermal:
             'T_wo': self.T_wo,
             'q_flux': self.q_flux,
             'T_aw': self.T_aw
-        } 
+        }
